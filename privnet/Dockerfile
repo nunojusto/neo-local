@@ -38,12 +38,6 @@ RUN apt-get update && apt-get install -y \
 # APT cleanup to reduce image size
 RUN rm -rf /var/lib/apt/lists/*
 
-# neo-python setup: clonse and install dependencies
-###RUN git clone https://github.com/CityOfZion/neo-python.git /neo-python
-##WORKDIR /neo-python
-# RUN git checkout development
-##RUN pip3 install -e .
-
 # Add the neo-cli package
 ADD ./neo-cli.zip /opt/neo-cli.zip
 
