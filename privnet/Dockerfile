@@ -5,10 +5,6 @@ LABEL maintainer="City of Zion"
 LABEL authors="original authors metachris, ashant, hal0x2328, phetter"
 
 ENV DEBIAN_FRONTEND noninteractive
-ARG NODE_NUMBER
-ARG PORT_NUMBER
-ARG RPC_PORT_NUMBER
-ENV NODENBR=$NODE_NUMBER
 
 # Disable dotnet usage information collection
 # https://docs.microsoft.com/en-us/dotnet/core/tools/telemetry#behavior
@@ -48,9 +44,8 @@ RUN unzip -q -d /opt/node /opt/neo-cli.zip
 RUN rm /opt/neo-cli.zip
 
 # Add config files
-ADD ./configs/config$NODE_NUMBER.json /opt/node/neo-cli/config.json
-ADD ./configs/protocol.json /opt/node/neo-cli/protocol.json
-ADD ./wallets/wallet$NODE_NUMBER.json /opt/node/neo-cli/
+ADD ./configs/* /opt/node/neo-cli/
+ADD ./wallets/* /opt/node/neo-cli/
 
 # Add scripts
 RUN wget https://s3.amazonaws.com/neo-experiments/neo-privnet.wallet
@@ -63,10 +58,6 @@ ADD ./wallets/neo-privnet.python-wallet /tmp/wallet
 # A welcome message for bash users
 RUN echo "printf \"\n* Consensus nodes are running in screen sessions, check 'screen -ls'\"" >> /root/.bashrc
 RUN echo "printf \"\n* Please report issues to https://github.com/CityOfZion/neo-local\n\n\"" >> /root/.bashrc
-
-# Inform Docker what ports to expose
-EXPOSE $PORT_NUMBER
-EXPOSE $RPC_PORT_NUMBER
 
 # On docker run, start the consensus nodes
 CMD ["/bin/bash", "/opt/run.sh"]
