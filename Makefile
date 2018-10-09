@@ -23,12 +23,12 @@ push-tag:
 
 setup-network:
 	@./scripts/print.sh prefix "Downloading neo-cli..."
-	@wget -O ./privnet/neo-cli.zip https://github.com/neo-project/neo-cli/releases/download/v2.7.4/neo-cli-linux-x64.zip
+	@wget -O ./privnet/neo-cli.zip https://github.com/neo-project/neo-cli/releases/download/v2.8.0/neo-cli-linux-x64.zip
 	@./scripts/print.sh prefix "Fetching Docker containers..."
 	@docker-compose pull > /dev/null
 	@./scripts/print.sh prefix "Starting Docker containers..."
 	@./scripts/print.sh prefix "The first time you run, it will take a while to build neo-privatenet (1 to 4) images..."
-	@docker-compose up -d --force-recreate --remove-orphans > /dev/null
+	@docker-compose up -d --build --force-recreate --remove-orphans > /dev/null
 	@./scripts/print.sh prefix "Waiting for network..." false
 	@./scripts/ping.sh
 	@./scripts/print.sh prefix "Network running! 🎉"
