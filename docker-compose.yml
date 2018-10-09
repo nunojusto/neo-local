@@ -32,7 +32,7 @@ services:
     ports:
       - "20334:20334"
       - "30334:30334"
-  
+
   neo-privatenet3:
     container_name: neo-privatenet3
     build:
@@ -41,7 +41,7 @@ services:
       NODE_NUMBER: 3
     ports:
       - "20335:20335"
-      - "30335:30335"
+      - "30335:30335"     
   
   neo-privatenet4:
     container_name: neo-privatenet4
@@ -51,7 +51,7 @@ services:
       NODE_NUMBER: 4
     ports:
       - "20336:20336"
-      - "30336:30336"
+      - "30336:30336"    
 
   neo-python:
     container_name: neo-python
@@ -62,7 +62,7 @@ services:
       - neo-privatenet4
       - neo-scan-api
       - neo-scan-sync
-    image: cityofzion/neo-python:v0.7.7
+    image: cityofzion/neo-python:v0.8.1
     network_mode: host
     tty: true
     volumes:
