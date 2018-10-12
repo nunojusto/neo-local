@@ -2,8 +2,7 @@
 #
 # This script starts consensus node and waits forever
 #
-echo $NODE_NUMBER
-echo
+#$NODE_NUMBER is passed as a evironment variable
 
 # copy the correct config to be loaded
 cp /opt/node/neo-cli/config$NODE_NUMBER.json /opt/node/neo-cli/config.json
