@@ -22,8 +22,6 @@ push-tag:
 	git push origin ${BRANCH} --tags
 
 setup-network:
-	@./scripts/print.sh prefix "Downloading neo-cli..."
-	@wget -O ./privnet/neo-cli.zip https://github.com/neo-project/neo-cli/releases/download/v2.8.0/neo-cli-linux-x64.zip
 	@./scripts/print.sh prefix "Fetching Docker containers..."
 	@docker-compose pull > /dev/null
 	@./scripts/print.sh prefix "Starting Docker containers..."
