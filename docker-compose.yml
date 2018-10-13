@@ -17,6 +17,8 @@ services:
     container_name: neo-privatenet1
     build:
       context: ./privnet
+      args:
+        NEO_CLI_VERSION: $NEO_CLI_VERSION
     environment:
       NODE_NUMBER: 1
     ports:
@@ -27,6 +29,8 @@ services:
     container_name: neo-privatenet2
     build:
       context: ./privnet
+      args:
+        NEO_CLI_VERSION: $NEO_CLI_VERSION
     environment:
       NODE_NUMBER: 2
     ports:
@@ -37,21 +41,25 @@ services:
     container_name: neo-privatenet3
     build:
       context: ./privnet
+      args:
+        NEO_CLI_VERSION: $NEO_CLI_VERSION
     environment:
       NODE_NUMBER: 3
     ports:
       - "20335:20335"
-      - "30335:30335"     
+      - "30335:30335"
   
   neo-privatenet4:
     container_name: neo-privatenet4
     build:
       context: ./privnet
+      args:
+        NEO_CLI_VERSION: $NEO_CLI_VERSION
     environment:
       NODE_NUMBER: 4
     ports:
       - "20336:20336"
-      - "30336:30336"    
+      - "30336:30336"
 
   neo-python:
     container_name: neo-python

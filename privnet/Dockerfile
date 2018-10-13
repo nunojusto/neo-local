@@ -4,6 +4,10 @@ FROM microsoft/dotnet:2.1.4-runtime-bionic
 LABEL maintainer="City of Zion"
 LABEL authors="original authors metachris, ashant, hal0x2328, phetter"
 
+# arguments to choose version of neo-cli to install (defaults to 2.8.0)
+ARG NEO_CLI_VERSION="2.8.0"
+
+# Frontend non-interactive
 ENV DEBIAN_FRONTEND noninteractive
 
 # Disable dotnet usage information collection
@@ -12,7 +16,7 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 # Install system dependencies. always should be done in one line
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     screen \
     expect \
@@ -25,26 +29,21 @@ RUN apt-get update && apt-get install -y \
     python3.6-dev \
     python3.6-venv \
     python3-pip \
-    libleveldb-dev \
     libssl-dev \
     vim \
-    man \
     libunwind8
 
 # APT cleanup to reduce image size
 RUN rm -rf /var/lib/apt/lists/*
 
-# Add the neo-cli package
-ADD ./neo-cli.zip /opt/neo-cli.zip
-
-# Extract and prepare four consensus nodes
-RUN unzip -q -d /opt/node /opt/neo-cli.zip
-
-# Remove zip neo-cli package
-RUN rm /opt/neo-cli.zip
+# Download, add and decomnpres the neo-cli package. At the end, delete the zip file.
+# $NEO_CLI_VERSION is a build argument
+RUN echo "https://github.com/neo-project/neo-cli/releases/download/v$NEO_CLI_VERSION/neo-cli-linux-x64.zip" && wget -O /opt/neo-cli.zip "https://github.com/neo-project/neo-cli/releases/download/v$NEO_CLI_VERSION/neo-cli-linux-x64.zip" && \
+    unzip -q -d /opt/node /opt/neo-cli.zip && \
+    rm /opt/neo-cli.zip
 
 # Add config files
-ADD ./configs/* /opt/node/neo-cli/
+ADD ./configs/v$NEO_CLI_VERSION/* /opt/node/neo-cli/
 ADD ./wallets/* /opt/node/neo-cli/
 
 # Add scripts
