@@ -18,7 +18,7 @@ services:
     build:
       context: ./privnet
       args:
-        NEO_CLI_VERSION: $NEO_CLI_VERSION
+        NEO_CLI_VERSION: $NODE1_NEO_CLI_VERSION
     environment:
       NODE_NUMBER: 1
     ports:
@@ -30,7 +30,7 @@ services:
     build:
       context: ./privnet
       args:
-        NEO_CLI_VERSION: $NEO_CLI_VERSION
+        NEO_CLI_VERSION: $NODE2_NEO_CLI_VERSION
     environment:
       NODE_NUMBER: 2
     ports:
@@ -42,7 +42,7 @@ services:
     build:
       context: ./privnet
       args:
-        NEO_CLI_VERSION: $NEO_CLI_VERSION
+        NEO_CLI_VERSION: $NODE3_NEO_CLI_VERSION
     environment:
       NODE_NUMBER: 3
     ports:
@@ -54,7 +54,7 @@ services:
     build:
       context: ./privnet
       args:
-        NEO_CLI_VERSION: $NEO_CLI_VERSION
+        NEO_CLI_VERSION: $NODE4_NEO_CLI_VERSION
     environment:
       NODE_NUMBER: 4
     ports:
@@ -70,7 +70,7 @@ services:
       - neo-privatenet4
       - neo-scan-api
       - neo-scan-sync
-    image: cityofzion/neo-python:v0.8.1
+    image: cityofzion/neo-python:v0.8.0
     network_mode: host
     tty: true
     volumes:
