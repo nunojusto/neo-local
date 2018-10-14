@@ -16,12 +16,11 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 # Install system dependencies. always should be done in one line
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
     unzip \
     screen \
     expect \
     libleveldb-dev \
-    git-core \
     wget \
     curl \
     git-core \
@@ -31,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     libssl-dev \
     vim \
+    man \
     libunwind8
 
 # APT cleanup to reduce image size
@@ -38,9 +38,15 @@ RUN rm -rf /var/lib/apt/lists/*
 
 # Download, add and decomnpres the neo-cli package. At the end, delete the zip file.
 # $NEO_CLI_VERSION is a build argument
-RUN echo "https://github.com/neo-project/neo-cli/releases/download/v$NEO_CLI_VERSION/neo-cli-linux-x64.zip" && wget -O /opt/neo-cli.zip "https://github.com/neo-project/neo-cli/releases/download/v$NEO_CLI_VERSION/neo-cli-linux-x64.zip" && \
+RUN wget -O /opt/neo-cli.zip "https://github.com/neo-project/neo-cli/releases/download/v$NEO_CLI_VERSION/neo-cli-linux-x64.zip" && \
     unzip -q -d /opt/node /opt/neo-cli.zip && \
     rm /opt/neo-cli.zip
+
+# neo-python setup: clonse and install dependencies
+RUN git clone https://github.com/CityOfZion/neo-python.git /neo-python
+WORKDIR /neo-python
+# RUN git checkout development
+RUN pip3 install -e .
 
 # Add config files
 ADD ./configs/v$NEO_CLI_VERSION/* /opt/node/neo-cli/
