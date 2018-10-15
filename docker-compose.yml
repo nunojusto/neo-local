@@ -15,7 +15,7 @@ services:
 
   neo-privatenet1:
     container_name: neo-privatenet1
-    image: cryptotuga/neo-local-privatenet:$NODE1_NEO_CLI_VERSION
+    image: cityofzion/neo-local-privatenet:$NODE1_NEO_CLI_VERSION
     #build:
     #  context: ./privnet
     #  args:
@@ -28,7 +28,7 @@ services:
 
   neo-privatenet2:
     container_name: neo-privatenet2
-    image: cryptotuga/neo-local-privatenet:$NODE2_NEO_CLI_VERSION
+    image: cityofzion/neo-local-privatenet:$NODE2_NEO_CLI_VERSION
     #build:
     #  context: ./privnet
     #  args:
@@ -41,7 +41,7 @@ services:
 
   neo-privatenet3:
     container_name: neo-privatenet3
-    image: cryptotuga/neo-local-privatenet:$NODE3_NEO_CLI_VERSION
+    image: cityofzion/neo-local-privatenet:$NODE3_NEO_CLI_VERSION
     #build:
     #  context: ./privnet
     #  args:
@@ -54,7 +54,7 @@ services:
   
   neo-privatenet4:
     container_name: neo-privatenet4
-    image: cryptotuga/neo-local-privatenet:$NODE4_NEO_CLI_VERSION
+    image: cityofzion/neo-local-privatenet:$NODE4_NEO_CLI_VERSION
     #build:
     #  context: ./privnet
     #  args:
