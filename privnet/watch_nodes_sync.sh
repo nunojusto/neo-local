@@ -29,4 +29,4 @@ function getBlockCount {
 }
 
 export -f getBlockCount
-watch -x -n.5 bash -c "getBlockCount"
+watch -t -x -n.5 bash -c "getBlockCount"
