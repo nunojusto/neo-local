@@ -4,59 +4,63 @@ services:
   neo-faucet:
     container_name: neo-faucet
     depends_on:
-      - neo-scan
+      - neo-scan-api
     environment:
-      NEOSCAN: "neo-scan:4000"
+      NEOSCAN: "neo-scan-api:4000"
     image: cityofzion/neo-local-faucet
     links:
-      - "neo-scan:4000"
+      - "neo-scan-api:4000"
     ports:
       - "4002:4002"
 
   neo-privatenet1:
     container_name: neo-privatenet1
-    build:
-      context: ./privnet
-      args:
-        NODE_NUMBER: 1
-        PORT_NUMBER: 20333
-        RPC_PORT_NUMBER: 30333
+    image: cityofzion/neo-local-privatenet:$NODE1_NEO_CLI_VERSION
+    #build:
+    #  context: ./privnet
+    #  args:
+    #    NEO_CLI_VERSION: $NODE1_NEO_CLI_VERSION
+    environment:
+      NODE_NUMBER: 1
     ports:
       - "20333:20333"
       - "30333:30333"
 
   neo-privatenet2:
     container_name: neo-privatenet2
-    build:
-      context: ./privnet
-      args:
-        NODE_NUMBER: 2
-        PORT_NUMBER: 20334
-        RPC_PORT_NUMBER: 30334
+    image: cityofzion/neo-local-privatenet:$NODE2_NEO_CLI_VERSION
+    #build:
+    #  context: ./privnet
+    #  args:
+    #    NEO_CLI_VERSION: $NODE2_NEO_CLI_VERSION
+    environment:
+      NODE_NUMBER: 2
     ports:
       - "20334:20334"
       - "30334:30334"
-  
+
   neo-privatenet3:
     container_name: neo-privatenet3
-    build:
-      context: ./privnet
-      args:
-        NODE_NUMBER: 3
-        PORT_NUMBER: 20335
-        RPC_PORT_NUMBER: 30335
+    image: cityofzion/neo-local-privatenet:$NODE3_NEO_CLI_VERSION
+    #build:
+    #  context: ./privnet
+    #  args:
+    #    NEO_CLI_VERSION: $NODE3_NEO_CLI_VERSION
+    environment:
+      NODE_NUMBER: 3
     ports:
       - "20335:20335"
       - "30335:30335"
   
   neo-privatenet4:
     container_name: neo-privatenet4
-    build:
-      context: ./privnet
-      args:
-        NODE_NUMBER: 4
-        PORT_NUMBER: 20336
-        RPC_PORT_NUMBER: 30336
+    image: cityofzion/neo-local-privatenet:$NODE4_NEO_CLI_VERSION
+    #build:
+    #  context: ./privnet
+    #  args:
+    #    NEO_CLI_VERSION: $NODE4_NEO_CLI_VERSION
+    environment:
+      NODE_NUMBER: 4
     ports:
       - "20336:20336"
       - "30336:30336"
@@ -68,16 +72,45 @@ services:
       - neo-privatenet2
       - neo-privatenet3
       - neo-privatenet4
-      - neo-scan
-    image: cityofzion/neo-python:v0.7.7
+      - neo-scan-api
+      - neo-scan-sync
+    image: cityofzion/neo-python:v0.8.1
     network_mode: host
     tty: true
     volumes:
       - "./smart-contracts:/smart-contracts"
       - "./wallets:/wallets"
 
-  neo-scan:
-    container_name: neo-scan
+  neo-scan-api:
+    container_name: neo-scan-api
+    depends_on:
+    - postgres
+    - neo-privatenet1
+    - neo-privatenet2
+    - neo-privatenet3
+    - neo-privatenet4
+    - notifications-server
+    environment:
+      HOST: "${HOST_NAME}"
+      NEO_NOTIFICATIONS_SERVER: "http://${NOTIFICATIONS_SERVER}:8080/v1"
+      NEO_SEEDS: "http://neo-privatenet1:30333;http://neo-privatenet2:30334;http://neo-privatenet3:30335;http://neo-privatenet4:30336"
+      PORT: 4000
+      DB_HOSTNAME: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: neoscan_prodv
+      REPLACE_OS_VARS: "true"
+    image: registry.gitlab.com/cityofzion/neo-scan/api:latest
+    links:
+      - "neo-privatenet1:30333"
+      - "neo-privatenet2:30334"
+      - "neo-privatenet3:30335"
+      - "neo-privatenet4:30336"
+    ports:
+    - "4000:4000"
+
+  neo-scan-sync:
+    container_name: neo-scan-sync
     depends_on:
       - postgres
       - neo-privatenet1
@@ -86,21 +119,19 @@ services:
       - neo-privatenet4
       - notifications-server
     environment:
-      HOST: "${HOST_NAME}"
       NEO_NOTIFICATIONS_SERVER: "http://${NOTIFICATIONS_SERVER}:8080/v1"
-      NEO_SEED_1: "http://neo-privatenet1:30333"
-      NEO_SEED_2: "http://neo-privatenet2:30334"
-      NEO_SEED_3: "http://neo-privatenet3:30335"
-      NEO_SEED_4: "http://neo-privatenet4:30336"
-      PORT: 4000
-    image: registry.gitlab.com/cityofzion/neo-scan
+      NEO_SEEDS: "http://neo-privatenet1:30333;http://neo-privatenet2:30334;http://neo-privatenet3:30335;http://neo-privatenet4:30336"
+      DB_HOSTNAME: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: neoscan_prodv
+      REPLACE_OS_VARS: "true"
+    image: registry.gitlab.com/cityofzion/neo-scan/sync:latest
     links:
       - "neo-privatenet1:30333"
       - "neo-privatenet2:30334"
       - "neo-privatenet3:30335"
       - "neo-privatenet4:30336"
-    ports:
-      - "4000:4000"
 
   notifications-server:
     command: "/usr/bin/python3 /neo-python/neo/bin/api_server.py --config /neo-python/custom-config.json --port-rest 8080"
