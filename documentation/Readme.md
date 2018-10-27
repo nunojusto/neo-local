@@ -39,6 +39,11 @@ Fast and easy to start from the ground:
 
 That will make a private neo-blockchain just for you to develop your dApp or smart-contract
 
+To stop the neo-local, exit from neo-python prompt and do the following command:
+```
+make stop
+```
+
 ## What's included
 
 Within the neo-local you'll find the following services:
