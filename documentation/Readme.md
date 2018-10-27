@@ -57,7 +57,7 @@ The project is made up of the following services:
 ## Usage
 
 After running the neo-local ecosystem (using the [Quick start](#quick-start)) you will land in the neo-python prompt.<br>
-Consesnus nodes are available on localhost ports 20333, 20334, 20335 and 20336.<br>
+Consensus nodes are available on localhost ports 20333, 20334, 20335 and 20336.<br>
 Or by RPC localhost 30333, 30334, 30335 and 30336.
 
 There's also two folders shared with neo-python running container. Everything you put there is available to be used inside the container.
@@ -69,7 +69,7 @@ neo-local/
 
 ## Customizing
 
-Neo-local has 4 neo-cli consensus nodes as block producers. The version of those nodes can be customized by you.
+Neo-local has four neo-cli consensus nodes as block producers. The version of those nodes can be customized by you.
 You can start neo-local with a different or even all different versions at the same time.
 
 To change the default versions you just need to edit the ".env" file
@@ -91,7 +91,7 @@ NODE4_NEO_CLI_VERSION=2.9.0
 
 ### Monitoring your nodes
 
-If you want to monitor your consensus nodes you can use this little script that makes 2 RPC calls querying the version of the node and the blockcount. It will keep looping and showing you the results in a table.
+If you want to monitor your consensus nodes you can use this little script that makes two RPC calls querying the version of the node and the blockcount. It will keep looping and showing you the results in a table.
 ```
 neo-local/
 ├── privnet/
@@ -103,8 +103,9 @@ Run it like this
 ```
 
 ### Changing a neo node version while blockchain is running
-And if you want to change a consesnus node version when all is already running? Well, you can do that without disrupting your blockchain in a snap of time.<br>
-To make that happen you need to rum a script inside the privnet folder:
+And if you want to change a consensus node version when all is already running?<br>
+Well, you can do that without disrupting your blockchain in a snap of time.<br>
+To make that happen you need to run a script inside the privnet folder:
 ```
 neo-local/
 ├── privnet/
@@ -112,7 +113,8 @@ neo-local/
 ```
 The script accepts 2 arguments:
 
-- The first is the name of the node container. There's four container names like `neo-privatenet1` (that goes 1 to 4 numbers)
+- The first is the name of the node container. There are four container names.<br>
+Example: `neo-privatenet1` (that goes from 1 to 4 numbers)
 
 - The second argument is the version of the neo-cli desired to be installed
 
@@ -120,7 +122,7 @@ This is a possible example:
 ```
 ./privnet/change_neo-cli_node_version.sh neo-privatenet3 2.9.0
 ```
-
+Note: This works for upgrading or downgrading the version.
 ## Bugs and feature requests
 
 Have a bug or a feature request? Please first read the [issue guidelines](https://github.com/CityOfZion/neo-local/CONTRIBUTING.md) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/CityOfZion/neo-local/pull/new/develop).
