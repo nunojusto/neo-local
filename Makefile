@@ -3,6 +3,12 @@ VERSION ?= $(shell cat ./VERSION)
 
 DEFAULT: start
 
+attach-to-neo-python-client:
+	@./scripts/print.sh prefix "Attaching terminal to neo-python client\n"
+	@./scripts/print.sh grey "Open wallet (password: 'coz'):\t open wallet ./neo-privnet.wallet"
+	@./scripts/print.sh grey "Test smart contract:\t\t build /smart-contracts/wake_up_neo.py test 07 05 True False main\n"
+	@docker exec -it neo-python np-prompt -p -v
+
 # IGNORE - used to check if version has been bumped on CI.
 check-version:
 	@echo "=> Checking if VERSION exists as Git tag..."
@@ -21,9 +27,11 @@ push-tag:
 	git tag ${VERSION}
 	git push origin ${BRANCH} --tags
 
-setup-network:
+pull-images:
 	@./scripts/print.sh prefix "Fetching Docker containers..."
 	@docker-compose pull > /dev/null
+
+setup-network:
 	@./scripts/print.sh prefix "Starting Docker containers..."
 	@./scripts/print.sh prefix "The first time you run, it will take a while to build neo-privatenet (1 to 4) images..."
 	@docker-compose up -d --build --force-recreate --remove-orphans > /dev/null
@@ -31,11 +39,9 @@ setup-network:
 	@./scripts/ping.sh
 	@./scripts/print.sh prefix "Network running! 🎉"
 
-start: setup-network
-	@./scripts/print.sh prefix "Attaching terminal to neo-python client\n"
-	@./scripts/print.sh grey "Open wallet (password: 'coz'):\t open wallet ./neo-privnet.wallet"
-	@./scripts/print.sh grey "Test smart contract:\t\t build /smart-contracts/wake_up_neo.py test 07 05 True False main\n"
-	@docker exec -it neo-python np-prompt -p -v
+start: pull-images setup-network attach-to-neo-python-client
+
+start-offline: setup-network attach-to-neo-python-client
 
 stop:
 	@./scripts/print.sh prefix "Stopping Docker containers..."
