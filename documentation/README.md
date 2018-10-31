@@ -35,11 +35,11 @@ Fast and easy to start from the ground:
 - Move to the folder neo-local
 - Start all with the command `make start`
 - Wait some seconds and you will have neo-python prompt available
-- You can also start you browser and go to [neo-local-faucet](http://localhost:4002) and claim some NEO and GAS to a wallet
+- You can also start your browser and go to [neo-local-faucet](http://localhost:4002) and claim some NEO and GAS to a wallet
 
-That will make a private neo-blockchain just for you to develop your dApp or smart-contract
+That will make a private NEO blockchain just for you to develop your dApp or smart-contract
 
-To stop the neo-local, exit from neo-python prompt and do the following command:
+To stop neo-local, exit from neo-python prompt and do the following command:
 ```
 make stop
 ```
@@ -47,8 +47,6 @@ make stop
 ## What's included
 
 Within the neo-local you'll find the following services:
-
-The project is made up of the following services:
 
 - [neo-local-faucet](https://github.com/CityOfZion/neo-local-faucet) (dev faucet)
 - [neo-cli](https://github.com/neo-project/neo-cli) (consensus nodes)
@@ -61,11 +59,11 @@ The project is made up of the following services:
 
 ## Usage
 
-After running the neo-local ecosystem (using the [Quick start](#quick-start)) you will land in the neo-python prompt.<br>
-Consensus nodes are available on localhost ports 20333, 20334, 20335 and 20336.<br>
-Or by RPC localhost 30333, 30334, 30335 and 30336.
+After running neo-local (see [Quick start](#quick-start)) you will land in the neo-python prompt.<br>
+Consensus nodes are available on `localhost` ports `20333`, `20334`, `20335` and `20336`.<br>
+Or by RPC on `localhost` ports `30333`, `30334`, `30335` and `30336`.
 
-There's also two folders shared with neo-python running container. Everything you put there is available to be used inside the container.
+There are also two folders shared with the neo-python running container. Everything you put there is available to be used inside the container.
 ```
 neo-local/
 ├── wallets/
@@ -74,7 +72,7 @@ neo-local/
 
 ## Customizing
 
-Neo-local has four neo-cli consensus nodes as block producers. The version of those nodes can be customized by you.
+Four neo-cli consensus nodes are started as block producers. The version of those nodes can be customized by you.
 You can start neo-local with a different or even all different versions at the same time.
 
 To change the default versions you just need to edit the ".env" file
@@ -96,7 +94,7 @@ NODE4_NEO_CLI_VERSION=2.9.0
 
 ### Monitoring your nodes
 
-If you want to monitor your consensus nodes you can use this little script that makes two RPC calls querying the version of the node and the blockcount. It will keep looping and showing you the results in a table.
+If you want to monitor your consensus nodes, you can use this little script that makes two RPC calls querying the version of the node and the blockcount. It will keep looping and showing you the results in a table.
 ```
 neo-local/
 ├── privnet/
@@ -107,7 +105,7 @@ Run it like this
 ./privnet/watch_nodes_sync.sh
 ```
 
-### Changing a neo node version while blockchain is running
+### Changing a NEO node version while blockchain is running
 And if you want to change a consensus node version when all is already running?<br>
 Well, you can do that without disrupting your blockchain in a snap of time.<br>
 To make that happen you need to run a script inside the privnet folder:
@@ -130,7 +128,7 @@ This is a possible example:
 Note: This works for upgrading or downgrading the version.
 ## Bugs and feature requests
 
-Have a bug or a feature request? Please first read the [issue guidelines](https://github.com/CityOfZion/neo-local/CONTRIBUTING.md) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/CityOfZion/neo-local/pull/new/develop).
+Have a bug or a feature request? Please first read the [issue guidelines](https://github.com/CityOfZion/neo-local/CONTRIBUTING.md) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/CityOfZion/neo-local/issues/new/choose).
 
 ## License
 
