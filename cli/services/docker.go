@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/CityOfZion/neo-local/cli/logger"
 	"github.com/CityOfZion/neo-local/cli/stack"
@@ -47,7 +48,7 @@ func PullDockerImages(ctx context.Context, cli *client.Client) error {
 	}
 
 	return nil
-<<<<<<< HEAD
+
 }
 
 func dockerImageNames() []string {
@@ -60,6 +61,48 @@ func dockerImageNames() []string {
 		"registry.gitlab.com/cityofzion/neo-scan/sync:latest",
 	}
 }
-=======
+
+// FetchContainerReferences finds the container ID for each service within the
+// stack.
+func FetchContainerReferences(ctx context.Context, cli *client.Client) (map[string]string, error) {
+	containerReferences := map[string]string{}
+	serviceContainerNames := stack.ServiceContainerNames()
+
+	for _, serviceContainerName := range serviceContainerNames {
+		containerReferences[serviceContainerName] = ""
+	}
+
+	containers, err := cli.ContainerList(
+		ctx,
+		types.ContainerListOptions{
+			All: true,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, container := range containers {
+		var containerName string
+		for _, name := range container.Names {
+			name = strings.Replace(name, "/", "", -1)
+			if strings.HasPrefix(name, stack.ContainerNamePrefix) {
+				containerName = name
+				break
+			}
+		}
+
+		if containerName == "" {
+			continue
+		}
+
+		for _, serviceContainerName := range serviceContainerNames {
+			if containerName == serviceContainerName {
+				containerReferences[containerName] = container.ID
+				break
+			}
+		}
+	}
+
+	return containerReferences, nil
 }
->>>>>>> upstream/develop
