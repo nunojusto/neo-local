@@ -48,7 +48,6 @@ func PullDockerImages(ctx context.Context, cli *client.Client) error {
 	}
 
 	return nil
-<<<<<<< HEAD
 }
 
 // FetchContainerReferences finds the container ID for each service within the
