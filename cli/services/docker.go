@@ -48,18 +48,6 @@ func PullDockerImages(ctx context.Context, cli *client.Client) error {
 	}
 
 	return nil
-
-}
-
-func dockerImageNames() []string {
-	return []string{
-		"cityofzion/neo-local-faucet:latest",
-		"cityofzion/neo-privatenet:2.7.6",
-		"cityofzion/neo-python:v0.8.1",
-		"library/postgres:10.5",
-		"registry.gitlab.com/cityofzion/neo-scan/api:latest",
-		"registry.gitlab.com/cityofzion/neo-scan/sync:latest",
-	}
 }
 
 // FetchContainerReferences finds the container ID for each service within the
