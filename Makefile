@@ -33,7 +33,7 @@ pull-images:
 
 setup-network:
 	@./scripts/print.sh prefix "Starting Docker containers..."
-	@./scripts/print.sh prefix "The first time you run, it will take a while to build neo-privatenet (1 to 4) images..."
+	@./scripts/print.sh prefix "The first time you run, it will take a while to build neo-cli-privatenet (1 to 4) images..."
 	@docker-compose up -d --build --force-recreate --remove-orphans > /dev/null
 	@./scripts/print.sh prefix "Waiting for network..." false
 	@./scripts/ping.sh
